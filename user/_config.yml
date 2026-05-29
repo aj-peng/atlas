@@ -1,0 +1,19 @@
+model:
+  version: target_detector
+  size: s                       # n, s, m, l, x (fastest/inaccurate - slowest/accurate)
+  confidence: 0.5               # Lower - More detection, false positive
+  iou: 0.3                      # Lower - More duplicate prevention, Less distinct detection
+  classes:
+    target: 0
+    obstacle: 1
+display:
+  canvas_width: 600
+  canvas_height: 420
+screen:
+  width: 1280
+  height: 1024
+camera:
+  index: 0
+hotkeys:
+  toggle_active: alt+a
+  quit: alt+q
