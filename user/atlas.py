@@ -39,7 +39,6 @@ class Atlas:
             "height": self.screen_height,
         }
 
-        # Stats
         self.target_count = 0
         self.obstacle_count = 0
 
@@ -51,9 +50,7 @@ class Atlas:
         self.command_queue = Queue()
 
     def _get_window_rect(self):
-        """Return (x, y, w, h) of the ATLAS window on screen, or None if unavailable."""
         try:
-            # cv2.getWindowImageRect returns (x, y, w, h) of the image area
             rect = cv2.getWindowImageRect(ATLAS)
             if rect and rect[2] > 0 and rect[3] > 0:
                 return rect
@@ -62,7 +59,6 @@ class Atlas:
         return None
 
     def _blank_atlas_window(self, frame):
-        """Black out the region of the frame occupied by the ATLAS window."""
         rect = self._get_window_rect()
         if rect is None:
             return frame
@@ -138,7 +134,6 @@ class Atlas:
             return frame
 
         try:
-            # Blank the ATLAS window so the model never sees its own output
             inference_frame = self._blank_atlas_window(frame.copy())
 
             results = MODEL(
@@ -150,7 +145,7 @@ class Atlas:
 
             self.target_count   = 0
             self.obstacle_count = 0
-            annotated = frame.copy() # annotate on the original (unblacked) frame
+            annotated = frame.copy() # annotate on the original frame
 
             if len(results) > 0 and results[0].boxes is not None:
                 for box in results[0].boxes:
@@ -167,7 +162,7 @@ class Atlas:
                         color = (0, 0, 255)
                         label = f"obstacle {conf:.2f}"
                     else:
-                        continue  # Unknown class: do not render
+                        continue  # do not render unknown class
 
                     cv2.rectangle(annotated, (x1, y1), (x2, y2), color, 2)
                     cv2.putText(annotated, label, (x1, y1 - 6),

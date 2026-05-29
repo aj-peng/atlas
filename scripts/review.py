@@ -249,7 +249,6 @@ class Reviewer:
                 return i
         return None
 
-    # ── HELPERS ───────────────────────────────────────────────────────────────
     def _timestamp(self):
         return datetime.now().strftime("%H:%M:%S")
 
@@ -268,7 +267,6 @@ class Reviewer:
         Q                           quit & save
         ────────────────────────────────────────────────────
         """)
-
 
 if __name__ == '__main__':
     try:

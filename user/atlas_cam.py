@@ -7,19 +7,18 @@ import yaml
 from pathlib import Path
 from queue import Queue, Empty
 
-# Load configuration
 with open("_config.yml") as f:
     cfg = yaml.safe_load(f)
 
-version = cfg["model"]["version"]
-model_path = Path(__file__).parent.parent / "data" / "models" / f"yolov8n_{version}" / "weights" / "best.pt"
+version = f"{cfg['model']['size']}_{cfg['model']['version']}"
+model_dir = f"yolov8{version}" # Can use custom directory
+model_path = Path(__file__).parent.parent / "data" / "models" / model_dir / "weights" / "best.pt"
 
 if not model_path.exists():
     raise FileNotFoundError(f"Trained model not found at {model_path}\n")
 
-print(f"Loading model: {model_path}")
+print(f"Model: {model_dir}")
 MODEL = YOLO(str(model_path))
-print(f"Model classes: {MODEL.names}")
 
 ATLAS = "ATLAS"
 
@@ -32,7 +31,6 @@ class Atlas:
         self.cap = None
         self.active = False
 
-        # Stats
         self.target_count = 0
         self.obstacle_count = 0
 
@@ -109,7 +107,6 @@ class Atlas:
             return frame
 
         try:
-            # We no longer need to blank the window, just pass the frame to YOLO
             inference_frame = frame.copy()
 
             results = MODEL(
@@ -138,7 +135,7 @@ class Atlas:
                         color = (0, 0, 255)
                         label = f"obstacle {conf:.2f}"
                     else:
-                        continue  # Unknown class: do not render
+                        continue  # do not render unknown class
 
                     cv2.rectangle(annotated, (x1, y1), (x2, y2), color, 2)
                     cv2.putText(annotated, label, (x1, y1 - 6),
@@ -178,13 +175,11 @@ class Atlas:
             cv2.imshow(ATLAS, display)
             cv2.waitKey(1)
 
-        # Cleanup
         if self.cap is not None:
             self.cap.release()
         keyboard.unhook_all()
         cv2.destroyAllWindows()
         print("ATLAS: Shutdown")
-
 
 if __name__ == '__main__':
     try:
