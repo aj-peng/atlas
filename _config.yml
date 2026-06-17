@@ -1,0 +1,59 @@
+model:
+  version:  v1
+  size:     n
+  custom:   True # True/False
+theme:
+  color_1:  [50, 50, 50]    # grey
+  color_2:  [200, 200, 200] # white
+  color_3:  [100, 100, 200] # red
+  color_4:  [100, 200, 100] # green
+  color_5:  [200, 100, 100] # blue
+  color_6:  [200, 200, 100] # yellow
+panel:
+  fps:      60
+  width:    600
+  height:   420
+capture:
+  width:    1280
+  height:   1024
+  camera:   0
+hotkey:
+  toggle:   e
+  clear:    w
+  quit:     q
+
+# BASE SETTINGS
+title:      atlas
+names:      [target]
+target:     500
+dataset:    .dataset
+trained:    .models/trained
+pretrained: .models/pretrained
+weights:    weights/best.pt
+layout:
+  raw:      raw
+  val:      val
+  train:    train
+  images:   images
+  labels:   labels
+split:
+  val:      0.2
+  seed:     42
+  block:    20
+inference:
+  conf:     0.5
+  iou:      0.3
+train:
+  epochs:   100
+  imgsz:    640
+  batch:    16
+  patience: 20
+augment:
+  degrees:   3
+  scale:     0.5
+  translate: 0.1
+  fliplr:    0.5
+  flipud:    0.0
+  hsv_h:     0.02
+  hsv_s:     0.7
+  hsv_v:     0.4
