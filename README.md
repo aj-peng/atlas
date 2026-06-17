@@ -1,4 +1,4 @@
-# Atlas v2
+## ATLAS
 
 A computer vision tool built with YOLOv8 for live detection of targets (screen or camera).
 It covers the full process: capture frames > annotate > build a dataset > train/fine-tune a
